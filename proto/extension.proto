@@ -1,0 +1,56 @@
+syntax = "proto3";
+package extension;
+
+option go_package = "github.com/kwil-io/core/proto/extension";
+
+service ExtensionService {
+    // Name is used to get the name of the extension.
+    rpc Name(NameRequest) returns (NameResponse) {}
+
+    // ListMethods is used to list the methods which the extension provides.
+    rpc ListMethods(ListMethodsRequest) returns (ListMethodsResponse) {}
+
+    // Execute is used to execute a method provided by the extension.
+    rpc Execute(ExecuteRequest) returns (ExecuteResponse) {}
+
+    // Initialize is used to create a new extension instance
+    rpc Initialize(InitializeRequest) returns (InitializeResponse) {}
+}
+
+message NameRequest {
+}
+
+message NameResponse {
+    string name = 1;
+}
+
+message ListMethodsRequest {
+}
+
+message ListMethodsResponse {
+    repeated string methods = 1;
+}
+
+message InitializeRequest {
+    map<string, string> metadata = 1; // maps the name to the value
+}
+
+message InitializeResponse {
+    bool success = 1;
+    map<string, string> metadata = 2;
+}
+
+message ExecuteRequest {
+    string name = 1;
+    repeated ScalarValue args = 2;
+    map<string, string> metadata = 3; // maps the name to the value
+}
+
+message ExecuteResponse {
+    repeated ScalarValue outputs = 1;
+}
+
+// ScalarValue is used to represent a scalar value.
+message ScalarValue {
+    bytes value = 1;
+}
