@@ -15,7 +15,6 @@
     "declarationDir": "./dist",
     "declarationMap": false
   },
-  "include": [
-    "src/"
-, "src/proto/_compiled.ts"  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

@@ -11,7 +11,7 @@ export function buildServer(config: ExtensionTemplate): Server {
     server.addService(ExtensionServiceService, extensionMethods)
 
     server.bindAsync(
-        'localhost:50051',
+        '0.0.0.0:50051',
         ServerCredentials.createInsecure(),
         (err, port) => {
             if (err) {
