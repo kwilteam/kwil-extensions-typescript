@@ -1,24 +1,28 @@
-import { ScalarValue as genNewScalarVal } from "../proto/extension";
+import { ScalarValue } from "../proto/extension";
 
-interface NewScalarVal {
-    value: string | number;
-  }
 
-export function convertScalarToPb(vals: NewScalarVal[]): genNewScalarVal[] {
-    let convertedOutputs: genNewScalarVal[] = [];
-    for (let output of vals) {
-        let bts = Buffer.from(JSON.stringify(output.value));
-        convertedOutputs.push({ value: bts });
-    }
-    return convertedOutputs;
+
+export interface DecodedScaler {
+    value: string | number
 }
 
-export function convertScalarFromPb(vals: genNewScalarVal[]): NewScalarVal[] {
-    let convertedInputs: NewScalarVal[] = [];
-    for (let input of vals) {
-        let v = JSON.parse(input.value.toString());
-        convertedInputs.push({ value: v });
+export function marshalScalar(vals: DecodedScaler[]): ScalarValue[] {
+    let convertedInputs: ScalarValue[] = []
+
+    for (let v of vals) {
+        convertedInputs.push({ value: Buffer.from(v.value.toString(), 'base64')})
     }
     return convertedInputs;
 }
 
+export function unmarshalPbToScalar(vals: ScalarValue[]): DecodedScaler[] {
+    let convertedOutputs: DecodedScaler[] = []
+
+    for (let v of vals) {
+        let decoded: DecodedScaler
+        decoded = { value: v.value.toString('base64') };
+        convertedOutputs.push(decoded)
+    }
+    
+    return convertedOutputs
+}

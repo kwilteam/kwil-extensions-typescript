@@ -1,4 +1,5 @@
-import { ExtensionBuilderImpl } from "../src/server/builder";
+import { ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
+import { MethodFn } from "@lukelamey/extensions-typescript/dist/types/builder";
 
 function helloWorld() {
     const name = 'hello world';
@@ -22,16 +23,19 @@ function helloWorld() {
         return metadata;
     }
 
-    type ScalarValue = {
+    type DecodedScalar = {
         value: string | number;
     }
 
-    async function sayHello(...values: ScalarValue[]) : Promise<ScalarValue[]> {
+    const sayHello: MethodFn = async function({
+        metadata,
+        inputs: values
+    }) : Promise<DecodedScalar[]> {
         if(values.length !== 1) {
             throw new Error(`Expected 1 argument, got ${values.length}`);
         }
 
-        const name = values[0]?.toString();
+        const name = values[0]?.value.toString();
 
         if(!name) {
             throw new Error(`Expected string argument, got ${values[0]}`);
@@ -44,14 +48,23 @@ function helloWorld() {
         console.log(`log function: ${l}`)
     }
 
-    return new ExtensionBuilderImpl()
+    const server = new ExtensionBuilder()
         .named(name)
         .withInitializer(initialize)
         .withMethods({
             sayHello
         })
         .withLoggerFn(logFunction)
+        .port('50051')
         .build();
+
+    process.on('SIGINT', () => {
+        server.stop();
+    });
+
+    process.on('SIGTERM', () => {
+        server.stop();
+    });
 }
 
-helloWorld();
+export default helloWorld;

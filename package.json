@@ -1,12 +1,10 @@
 {
-  "name": "extensions-typescript",
-  "version": "1.0.0",
+  "name": "@lukelamey/extensions-typescript",
+  "version": "1.0.13",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/test.js",
-    "dev": "ts-node src/test.ts"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +17,13 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.8.17",
     "google-protobuf": "^3.21.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwilteam/kwil-extensions-typescript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kwilteam/kwil-extensions-typescript/issues"
+  },
+  "homepage": "https://github.com/kwilteam/kwil-extensions-typescript#readme"
 }

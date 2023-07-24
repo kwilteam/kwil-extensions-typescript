@@ -52,5 +52,5 @@ message ExecuteResponse {
 
 // ScalarValue is used to represent a scalar value.
 message ScalarValue {
-    bytes value = 1;
+    string value = 1;
 }

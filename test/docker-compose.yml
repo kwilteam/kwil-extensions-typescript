@@ -1,0 +1,20 @@
+version: '3'
+services:
+  extension:
+    image: tsextensions/hellomath:latest
+    ports:
+      - 50055:50051
+    restart: on-failure
+
+  kwil:
+    image: kwildb/kwil:extensions
+    ports:
+      - 50051:50051
+      - 8080:8080
+    env_file:
+      - ./config/kwil.env
+    environment:
+      - KWILD_EXTENSION_ENDPOINTS=extension:50051
+    depends_on:
+      - extension
+    restart: on-failure

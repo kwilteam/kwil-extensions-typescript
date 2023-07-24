@@ -1,52 +1,75 @@
-import { ServerUnaryCall, sendUnaryData } from "@grpc/grpc-js";
+import { ServerUnaryCall, UntypedHandleCall, sendUnaryData } from "@grpc/grpc-js";
 import { ExecuteRequest, ExecuteResponse, InitializeRequest, InitializeResponse, ListMethodsRequest, ListMethodsResponse, NameRequest, NameResponse } from "../proto/extension";
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
-import { ExtensionTemplate } from "../types/builder";
-import { convertScalarFromPb, convertScalarToPb } from "../types/convert";
+import { marshalScalar, unmarshalPbToScalar } from "../types/convert";
+import { ExtensionMethodsImpl } from "../types/extension";
+import { extConfig } from "./builder";
 
-export function createExtensionMethods(ext: ExtensionTemplate) {
-    return {
-      Name: (call: ServerUnaryCall<Empty, NameResponse>, callback: sendUnaryData<NameResponse>): void => {
-          const reply: NameResponse = { name: ext.config.name };
-          callback(null, reply);
-      },
+class MetadataStore {
+    private _metadata: Record<string, string>;
+
+    constructor() {
+        this._metadata = {};
+    }  
   
-      ListMethods: (call: ServerUnaryCall<ListMethodsRequest, ListMethodsResponse>, callback: sendUnaryData<ListMethodsResponse>): void => {
-          const methods: string[] = Object.keys(ext.config.methods);
-          const reply: ListMethodsResponse = { methods };
-          callback(null, reply);
-      },
+    public get metadata(): Record<string, string> {
+      return this._metadata;
+    }
   
-      Execute: async (call: ServerUnaryCall<ExecuteRequest, ExecuteResponse>, callback: sendUnaryData<ExecuteResponse>): Promise<void> => {
-          let method = ext.config.methods[call.request.name];
-          if(!method) {
-              callback(new Error(`Method ${call.request.name} not found`));
-              return;
-          }
-  
-          try {
-              const convertedInputs = convertScalarFromPb(call.request.args);
-              const outputs = await method(...convertedInputs);
-              const convertedOutputs = convertScalarToPb(outputs); 
-              const reply: ExecuteResponse = { outputs: convertedOutputs };
-              callback(null, reply);
-          } catch (error) {
-              callback(new Error(`Error executing method ${call.request.name}: ${error}`));
-          }
-      },
-  
-      Initialize: async (call: ServerUnaryCall<InitializeRequest, InitializeResponse>, callback: sendUnaryData<InitializeResponse>): Promise<void> => {
-          try {
-              let metadata = await ext.config.initializeFn(call.request.metadata);
-              let reply: InitializeResponse = { 
-                  success: true,
-                  metadata
-               };
-              callback(null, reply);
-          } catch (error) {
-              callback(new Error(`Error initializing extension: ${error}`));
-          }
-      }
-    };
-  }
-  
+    public set metadata(value: Record<string, string>) {
+      this._metadata = value;
+    }
+}
+
+const metadataStore = new MetadataStore();
+
+export class ExtensionMethods implements ExtensionMethodsImpl {
+    [method: string]: UntypedHandleCall;
+
+    public name(call: ServerUnaryCall<Empty, NameResponse>, callback: sendUnaryData<NameResponse>): void {
+        const reply: NameResponse = { name: extConfig.config.name };
+        callback(null, reply);
+    }
+
+    public listMethods(call: ServerUnaryCall<ListMethodsRequest, ListMethodsResponse>, callback: sendUnaryData<ListMethodsResponse>): void {
+        const methods: string[] = Object.keys(extConfig.config.methods);
+        const reply: ListMethodsResponse = { methods };
+        callback(null, reply);
+    }
+
+    public async execute(call: ServerUnaryCall<ExecuteRequest, ExecuteResponse>, callback: sendUnaryData<ExecuteResponse>): Promise<void> {
+        let method = extConfig.config.methods[call.request.name];
+
+        if(!method) {
+            callback(new Error(`Method ${call.request.name} not found`));
+            return;
+        }
+
+        try {
+            const convertedInputs = unmarshalPbToScalar(call.request.args);
+            const outputs = await method({ inputs: convertedInputs, metadata: metadataStore.metadata });
+            const convertedOutputs = marshalScalar(outputs); 
+            const reply: ExecuteResponse = { outputs: convertedOutputs };
+            callback(null, reply);
+        } catch (error) {
+            callback(new Error(`Error executing method ${call.request.name}: ${error}`));
+        }
+    }
+
+    public async initialize(call: ServerUnaryCall<InitializeRequest, InitializeResponse>, callback: sendUnaryData<InitializeResponse>): Promise<void> {
+        try {
+            console.log('before the try')
+            let metadata = await extConfig.config.initializeFn(call.request.metadata);
+            console.log('after the try')
+            let reply: InitializeResponse = { 
+                success: true,
+                metadata
+             };
+            metadataStore.metadata = metadata;
+            callback(null, reply);
+        } catch (error) {
+            callback(new Error(`Error initializing extension: ${error}`));
+        }
+    }
+
+}

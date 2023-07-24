@@ -1,16 +1,20 @@
-import { Server } from "@grpc/grpc-js";
+import { DecodedScaler } from "./convert";
 import { Nillable, NonNil } from "./general";
 
-export interface ExtensionBuilder {
-    withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilder>;
+export interface ExtensionBuilderImpl {
+    withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl>;
 
-    withInitializer(initializer: InitializeFn): NonNil<ExtensionBuilder>;
+    withInitializer(initializer: InitializeFn): NonNil<ExtensionBuilderImpl>;
 
-    named(name: string): NonNil<ExtensionBuilder>;
+    named(name: string): NonNil<ExtensionBuilderImpl>;
 
-    withLoggerFn(logFunction: logFunction): NonNil<ExtensionBuilder>;
+    withLoggerFn(logFunction: logFunction): NonNil<ExtensionBuilderImpl>;
 
-    build(): Server;
+    port(port: string): NonNil<ExtensionBuilderImpl>;
+
+    build(): NonNil<ExtensionBuilderImpl>;
+
+    stop(): void;
 }
 
 export interface ExtensionTemplate {
@@ -26,10 +30,14 @@ interface Config {
 
 export type InitializeFn = (metadata: Record<string, string>) => Promise<Record<string, string>>;
 
-export type MethodFn = (...inputs: ScalarValue[]) => Promise<ScalarValue[]>;
+interface MethodFnParams {
+    metadata: Record<string, string>,
+    inputs: DecodedScaler[]
+}
+
+export type MethodFn = ({
+    metadata,
+    inputs
+}: MethodFnParams) => Promise<DecodedScaler[]>;
 
 export type logFunction = (l: string) => any;
-
-type ScalarValue = {
-    value: string | number;
-}

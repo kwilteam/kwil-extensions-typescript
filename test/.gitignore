@@ -11,4 +11,3 @@ yarn.lock
 /dist
 /pkg
 testapp/node_modules
-.npmrc

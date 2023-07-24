@@ -1,9 +1,8 @@
-import { ExtensionBuilderImpl } from "./server/builder";
-import { stopServer } from "./server/server";
+import { ExtensionBuilder } from "./server/builder";
 import { ScalarValue } from "./proto/extension";
+import { MethodFn } from "./types/builder";
 
 export {
-    ExtensionBuilderImpl,
-    stopServer,
-    ScalarValue
+    ExtensionBuilder,
+    ScalarValue,
 }
