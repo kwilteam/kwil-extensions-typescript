@@ -19,7 +19,7 @@ export class DecodedScaler {
         const decoder = new TextDecoder('utf-8');
         console.log(`decoder: ${decoder}`)
         const jsonString = decoder.decode(byteBuffer);
-        console.log(`jsonString: ${jsonString}`)
+        console.log(`jsonString: ${JSON.parse(jsonString)}`)
         return JSON.parse(jsonString);
     }
 }
