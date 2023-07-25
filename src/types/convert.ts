@@ -21,6 +21,11 @@ export class DecodedScaler {
         console.log(`buffer: ${this.value}`)
         const str = this.toString();
         console.log(`str: ${str}`)
+
+        for(let i = 0; i < str.length; i++) {
+            console.log(`str[${i}] = '${str[i]}' (code: ${str.charCodeAt(i)})`);
+        }
+        
         const number = Number(str.trim());
         console.log(`number: ${number}`)
         return number;
