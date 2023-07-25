@@ -10,7 +10,11 @@ export class DecodedScaler {
     }
 
     public toString(): any {
-        return this.value.toString('utf-8')
+        const str = this.value.toString('utf-8')
+        if(typeof String(str) !== 'string') {
+            throw new Error(`Expected string, got ${str}`);
+        }
+        return String(str);
     }
 
     public toNumber(): number {
@@ -19,6 +23,10 @@ export class DecodedScaler {
         for(let i = 0; i < byteBuffer.length; i++) {
             number = (number * 256) + byteBuffer[i];
         }
+        if(typeof Number(number) !== 'number') {
+            throw new Error(`Expected number, got ${number}`);
+        }
+        number = Number(number);
         return number;
     }
 }

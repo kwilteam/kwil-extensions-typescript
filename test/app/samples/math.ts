@@ -42,7 +42,7 @@ const add: MethodFn = async ({ metadata, inputs }) => {
     const y = inputs[1]?.toNumber();
     console.log(`y: ${y}`)
 
-    if(!x || !y) {
+    if(!typeof x  || !y) {
         throw new Error(`Expected number arguments, got ${inputs}`);
     }
 
@@ -54,7 +54,7 @@ const subtract: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
 
-    const x = inputs[0]?.toNumber();
+    const x = inputs[0]?.toString();
     const y = inputs[1]?.toNumber();
 
     if(!x || !y) {
@@ -115,7 +115,7 @@ function helloMath(): void {
         server.stop();
     });
 
-    console.log(`version 1`)
+    console.log(`version 2`)
 }
 
 export default helloMath;
