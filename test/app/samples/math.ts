@@ -37,7 +37,7 @@ const add: MethodFn = async ({ metadata, inputs }) => {
     }
     console.log(`inputs: ${inputs}`)
     console.log(`metadata: ${metadata}`)
-    const x = inputs[0]?.toString();
+    const x = inputs[0]?.toNumber();
     console.log(`x: ${x}`)
     const y = inputs[1]?.toNumber();
     console.log(`y: ${y}`)

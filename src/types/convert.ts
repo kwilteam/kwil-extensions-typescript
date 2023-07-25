@@ -18,7 +18,8 @@ export class DecodedScaler {
     }
 
     public toNumber(): number {
-        const str = this.value.toString('utf-8')
+        const str = this.toString(); 
+        console.log(`string in toNumber: ${str}`)
         const number = Number(str);
         return number;
     }
