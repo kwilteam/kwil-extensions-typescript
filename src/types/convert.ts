@@ -18,10 +18,11 @@ export class DecodedScaler {
     }
 
     public toNumber(): number {
-        console.log(this.value)
+        console.log(`buffer: ${this.value}`)
         const str = this.toString();
-        console.log(str)
+        console.log(`str: ${str}`)
         const number = Number(str.toString());
+        console.log(`number: ${number}`)
         return number;
     }
 }
