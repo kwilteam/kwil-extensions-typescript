@@ -20,7 +20,7 @@ export class DecodedScaler {
     public toNumber(): number {
         const str = this.toString(); 
         console.log(`string in toNumber: ${str}`)
-        const number = Number(str);
+        const number = Number(str.toString());
         return number;
     }
 }
