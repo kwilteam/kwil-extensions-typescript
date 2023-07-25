@@ -11,10 +11,10 @@ export class DecodedScaler {
 
     public toString(): any {
         const str = this.value.toString('utf-8')
-        if(typeof String(str) !== 'string') {
+        if(typeof str !== 'string') {
             throw new Error(`Expected string, got ${str}`);
         }
-        return String(str);
+        return str;
     }
 
     public toNumber(): number {
@@ -25,7 +25,7 @@ export class DecodedScaler {
         for(let i = 0; i < str.length; i++) {
             console.log(`str[${i}] = '${str[i]}' (code: ${str.charCodeAt(i)})`);
         }
-        
+
         const number = Number(str.trim());
         console.log(`number: ${number}`)
         return number;
