@@ -10,7 +10,7 @@ export class DecodedScaler {
     }
 
     public toString(): any {
-        return JSON.parse(this.value.toString());
+        return this.value.toString('utf-8')
     }
 
     public toNumber(): number {
