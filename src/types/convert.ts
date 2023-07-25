@@ -18,7 +18,10 @@ export class DecodedScaler implements DecodedScalarImpl{
     }
 
     public toNumber(): number {
-        return this.value[0] >> 7;
+        const byteBuffer = new Uint8Array(this.value);
+        const decoder = new TextDecoder('utf-8');
+        const jsonString = decoder.decode(byteBuffer);
+        return JSON.parse(jsonString);
     }
 }
 
