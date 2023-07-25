@@ -26,8 +26,7 @@ export class DecodedScaler {
         if(typeof Number(number) !== 'number') {
             throw new Error(`Expected number, got ${number}`);
         }
-        number = Number(number);
-        return number;
+        return Number(number);
     }
 }
 
