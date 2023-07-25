@@ -22,7 +22,13 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
     }
 
     withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl> {
+        //convert all methods to lowercase
+        Object.keys(methods).forEach((key) => {
+            methods[key.toLowerCase()] = methods[key];
+            delete methods[key];
+        });
         this.template.config.methods = methods;
+        console.log(`methods: ${JSON.stringify(methods)}`)
         return this;
     }
 

@@ -12,10 +12,11 @@
   "license": "ISC",
   "types": "./test.d.ts",
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@lukelamey/extensions-typescript": "^1.0.58",
+    "@lukelamey/extensions-typescript": "^1.0.59",
     "ethers": "^6.6.5"
   }
 }
