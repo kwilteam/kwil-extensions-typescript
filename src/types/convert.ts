@@ -10,7 +10,8 @@ export class DecodedScaler {
     }
 
     public toString(): any {
-        const str = this.value.toString('utf-8')
+        let str = this.value.toString('utf-8')
+        str = JSON.parse(str);
         if(typeof str !== 'string') {
             throw new Error(`Expected string, got ${str}`);
         }
@@ -18,18 +19,8 @@ export class DecodedScaler {
     }
 
     public toNumber(): number {
-        console.log(`buffer: ${this.value}`)
         const str = this.toString();
-        console.log(`str: ${str}`)
-
-        for(let i = 0; i < str.length; i++) {
-            console.log(`str[${i}] = '${str[i]}' (code: ${str.charCodeAt(i)})`);
-        }
-
-        // Parse the JSON string to remove the quotes before converting to a number.
-        const parsedStr = JSON.parse(str);
-        const number = Number(parsedStr);
-        console.log(`number: ${number}`)
+        const number = Number(str);
         return number;
     }
 }
