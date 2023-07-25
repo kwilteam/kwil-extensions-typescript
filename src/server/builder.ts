@@ -28,7 +28,6 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
             cleanedMethods[k.toLowerCase()] = methods[k];
         }
         this.template.config.methods = cleanedMethods;
-        console.log(cleanedMethods)
         return this;
     }
 

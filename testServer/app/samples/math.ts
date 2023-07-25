@@ -20,7 +20,6 @@ async function initalize(metadata: Record<string, string>): Promise<Record<strin
         throw new Error(`Invalid round value: ${metadata['round']}`);
     }
 
-    console.log(`metadata: ${metadata['round']}`)
     return metadata;
 }
 
@@ -36,12 +35,9 @@ const add: MethodFn = async ({ metadata, inputs }) => {
     if(inputs.length !== 2) {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
-    console.log(`inputs: ${inputs}`)
-    console.log(`metadata: ${metadata}`)
+
     const x = inputs[0]?.toNumber();
-    console.log(`x: ${x}`)
     const y = inputs[1]?.toNumber();
-    console.log(`y: ${y}`)
 
     if(typeof x !== 'number' || typeof y !== 'number') {
         throw new Error(`Expected number arguments, got ${inputs}`);

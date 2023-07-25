@@ -12,6 +12,6 @@ npm version patch
 npm publish
 
 # navigate back to this script's directory
-cd test
+cd testServer
 npm uninstall @lukelamey/extensions-typescript
 npm i @lukelamey/extensions-typescript
