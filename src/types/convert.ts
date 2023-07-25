@@ -13,14 +13,14 @@ export class DecodedScaler {
         return JSON.parse(this.value.toString());
     }
 
-    public toNumber(): number {
+    public toNumber(): string {
         const byteBuffer = new Uint8Array(this.value);
         console.log(`byteBuffer: ${byteBuffer}`)
         const decoder = new TextDecoder('utf-8');
         console.log(`decoder: ${decoder}`)
         const jsonString = decoder.decode(byteBuffer);
-        console.log(`jsonString: ${JSON.parse(jsonString)}`)
-        return JSON.parse(jsonString);
+        console.log(`jsonString: ${JSON.stringify(jsonString)}`)
+        return JSON.stringify(jsonString);
     }
 }
 
