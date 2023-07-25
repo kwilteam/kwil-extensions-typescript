@@ -26,7 +26,9 @@ export class DecodedScaler {
             console.log(`str[${i}] = '${str[i]}' (code: ${str.charCodeAt(i)})`);
         }
 
-        const number = Number(str.trim());
+        // Parse the JSON string to remove the quotes before converting to a number.
+        const parsedStr = JSON.parse(str);
+        const number = Number(parsedStr);
         console.log(`number: ${number}`)
         return number;
     }
