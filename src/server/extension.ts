@@ -38,7 +38,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
     }
 
     public async execute(call: ServerUnaryCall<ExecuteRequest, ExecuteResponse>, callback: sendUnaryData<ExecuteResponse>): Promise<void> {
-        let method = extConfig.config.methods[call.request.name];
+        let method = extConfig.config.methods[call.request.name.toLowerCase()];
 
         if(!method) {
             callback(new Error(`Method ${call.request.name} not found`));
