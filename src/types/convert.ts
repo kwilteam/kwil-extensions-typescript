@@ -1,12 +1,8 @@
 import { ScalarValue } from "../proto/extension";
 
-interface DecodedScalarImpl {
-    value: Buffer;
-    toString(): string;
-    toNumber(): number;
-}
 
-export class DecodedScaler implements DecodedScalarImpl{
+
+export class DecodedScaler {
     value: Buffer;
 
     constructor(initScalar: Buffer) {
@@ -19,8 +15,11 @@ export class DecodedScaler implements DecodedScalarImpl{
 
     public toNumber(): number {
         const byteBuffer = new Uint8Array(this.value);
+        console.log(`byteBuffer: ${byteBuffer}`)
         const decoder = new TextDecoder('utf-8');
+        console.log(`decoder: ${decoder}`)
         const jsonString = decoder.decode(byteBuffer);
+        console.log(`jsonString: ${jsonString}`)
         return JSON.parse(jsonString);
     }
 }
