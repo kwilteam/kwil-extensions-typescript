@@ -18,15 +18,9 @@ export class DecodedScaler {
     }
 
     public toNumber(): number {
-        const byteBuffer = new Uint8Array(this.value);
-        let number = 0;
-        for(let i = 0; i < byteBuffer.length; i++) {
-            number = (number * 256) + byteBuffer[i];
-        }
-        if(typeof Number(number) !== 'number') {
-            throw new Error(`Expected number, got ${number}`);
-        }
-        return Number(number);
+        const str = this.value.toString('utf-8')
+        const number = Number(str);
+        return number;
     }
 }
 
