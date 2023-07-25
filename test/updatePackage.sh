@@ -6,6 +6,8 @@ cd ..
 
 # run your command line tasks (replace with your actual tasks)
 npm run build
+git add .
+git commit -m 'prepare for package update'
 npm version patch
 npm publish
 
