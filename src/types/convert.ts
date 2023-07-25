@@ -21,7 +21,7 @@ export class DecodedScaler {
         console.log(`buffer: ${this.value}`)
         const str = this.toString();
         console.log(`str: ${str}`)
-        const number = Number(str.toString());
+        const number = Number(str.trim());
         console.log(`number: ${number}`)
         return number;
     }
