@@ -22,8 +22,13 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
     }
 
     withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl> {
-        this.template.config.methods = methods;
-        console.log(methods)
+        let cleanedMethods: Record<string, MethodFn> = {};
+
+        for (const k in methods) {
+            cleanedMethods[k.toLowerCase()] = methods[k];
+        }
+        this.template.config.methods = cleanedMethods;
+        console.log(cleanedMethods)
         return this;
     }
 
