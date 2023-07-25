@@ -30,7 +30,7 @@ interface Config {
     methods: Record<string, MethodFn>
 }
 
-export type InitializeFn = (metadata?: Record<string, string>) => Promise<Record<string, string>>;
+export type InitializeFn = (metadata: Record<string, string>) => Promise<Record<string, string>>;
 
 interface MethodFnParams {
     metadata: Record<string, string>,

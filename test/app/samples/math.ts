@@ -7,7 +7,7 @@ const name = 'math';
 
 const roundDefault: Round = 'down'
 
-async function initalize(metadata?: Record<string, string>): Promise<Record<string, string>> {
+async function initalize(metadata: Record<string, string>): Promise<Record<string, string>> {
     if(!metadata) {
         return { round: roundDefault };
     }

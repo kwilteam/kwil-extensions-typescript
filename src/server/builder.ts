@@ -14,7 +14,7 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
         this.template = {
             config: {
                 name: "",
-                initializeFn: async (metadata?: Record<string, string>) => { return {} },
+                initializeFn: async (metadata: Record<string, string>) => { return {} },
                 methods: {}
             },
             logFunction: null
