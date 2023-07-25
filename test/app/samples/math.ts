@@ -42,7 +42,7 @@ const add: MethodFn = async ({ metadata, inputs }) => {
     const y = inputs[1]?.toNumber();
     console.log(`y: ${y}`)
 
-    if(!typeof x  || !y) {
+    if(typeof x !== 'number' || typeof y !== 'number') {
         throw new Error(`Expected number arguments, got ${inputs}`);
     }
 

@@ -18,8 +18,8 @@ export class DecodedScaler {
     }
 
     public toNumber(): number {
-        const str = this.toString(); 
-        console.log(`string in toNumber: ${str}`)
+        console.log(this.value)
+        const str = this.toString();
         const number = Number(str.toString());
         return number;
     }
