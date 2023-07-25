@@ -72,6 +72,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
                 success: true,
                 metadata
              };
+             console.log(reply)
             metadataStore.metadata = metadata;
             callback(null, reply);
         } catch (error) {
