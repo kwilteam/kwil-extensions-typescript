@@ -67,6 +67,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
 
     public async initialize(call: ServerUnaryCall<InitializeRequest, InitializeResponse>, callback: sendUnaryData<InitializeResponse>): Promise<void> {
         try {
+            console.log(call.request.metadata)
             let metadata = await extConfig.config.initializeFn(call.request.metadata);
             let reply: InitializeResponse = { 
                 success: true,
