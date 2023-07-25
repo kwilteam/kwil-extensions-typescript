@@ -1,5 +1,5 @@
 import { ScalarValue } from "../proto/extension";
-import { DecodedScaler } from "./convert";
+import { CleanScalar, DecodedScaler } from "./convert";
 import { Nillable, NonNil } from "./general";
 
 
@@ -40,6 +40,6 @@ interface MethodFnParams {
 export type MethodFn = ({
     metadata,
     inputs
-}: MethodFnParams) => Promise<any[]>;
+}: MethodFnParams) => Promise<CleanScalar[]>;
 
 export type logFunction = (l: string) => any;

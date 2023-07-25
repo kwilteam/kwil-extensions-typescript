@@ -25,7 +25,7 @@ export class DecodedScaler {
     }
 }
 
-interface CleanScalar {
+export interface CleanScalar {
     value: string | number;
 }
 

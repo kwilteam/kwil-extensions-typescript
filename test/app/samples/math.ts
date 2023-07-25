@@ -5,7 +5,7 @@ type Round = 'up' | 'down';
 
 const name = 'math';
 
-const roundDefault: Round = 'down'
+const roundDefault: Round = 'up'
 
 async function initalize(metadata: Record<string, string>): Promise<Record<string, string>> {
     if(!metadata) {
