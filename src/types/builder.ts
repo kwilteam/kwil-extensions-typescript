@@ -1,4 +1,3 @@
-import { ScalarValue } from "../proto/extension";
 import { CleanScalar, DecodedScaler } from "./convert";
 import { Nillable, NonNil } from "./general";
 
