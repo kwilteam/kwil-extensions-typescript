@@ -18,7 +18,7 @@ export class DecodedScaler implements DecodedScalarImpl{
     }
 
     public toNumber(): number {
-        return this.value.readIntBE(0, this.value.length);
+        return this.value[0] >> 7;
     }
 }
 

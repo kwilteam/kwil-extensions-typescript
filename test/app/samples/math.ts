@@ -37,9 +37,9 @@ const add: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
     console.log(inputs[0])
-    const x = inputs[0]?.toString();
+    const x = inputs[0]?.toNumber();
     console.log(`x: ${x}`)
-    const y = inputs[1]?.toString();
+    const y = inputs[1]?.toNumber();
     console.log(`y: ${y}`)
 
     if(!x || !y) {
