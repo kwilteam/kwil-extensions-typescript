@@ -47,6 +47,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
 
         try {
             const convertedInputs = unmarshalPbToScalar(call.request.args);
+            console.log(convertedInputs)
             const outputs = await method({ inputs: convertedInputs, metadata: metadataStore.metadata });
             const convertedOutputs = marshalScalar(outputs); 
             const reply: ExecuteResponse = { outputs: convertedOutputs };

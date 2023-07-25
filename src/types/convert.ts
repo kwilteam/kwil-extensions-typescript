@@ -1,12 +1,32 @@
 import { ScalarValue } from "../proto/extension";
 
-
-
-export interface DecodedScaler {
-    value: string | number
+interface DecodedScalarImpl {
+    value: Buffer;
+    toString(): string;
+    toNumber(): number;
 }
 
-export function marshalScalar(vals: DecodedScaler[]): ScalarValue[] {
+export class DecodedScaler implements DecodedScalarImpl{
+    value: Buffer;
+
+    constructor(initScalar: Buffer) {
+        this.value = initScalar;
+    }
+
+    public toString(): any {
+        return JSON.parse(this.value.toString());
+    }
+
+    public toNumber(): number {
+        return this.value.readIntBE(0, this.value.length);
+    }
+}
+
+interface CleanScalar {
+    value: string | number;
+}
+
+export function marshalScalar(vals: ScalarValue[]): ScalarValue[] {
     let convertedInputs: ScalarValue[] = []
 
     for (let v of vals) {
@@ -19,9 +39,7 @@ export function unmarshalPbToScalar(vals: ScalarValue[]): DecodedScaler[] {
     let convertedOutputs: DecodedScaler[] = []
 
     for (let v of vals) {
-        let decoded: DecodedScaler
-        decoded = { value: v.value.toString('base64') };
-        convertedOutputs.push(decoded)
+        convertedOutputs.push(new DecodedScaler(v.value))
     }
     
     return convertedOutputs

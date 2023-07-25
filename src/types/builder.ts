@@ -1,5 +1,7 @@
+import { ScalarValue } from "../proto/extension";
 import { DecodedScaler } from "./convert";
 import { Nillable, NonNil } from "./general";
+
 
 export interface ExtensionBuilderImpl {
     withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl>;
@@ -38,6 +40,6 @@ interface MethodFnParams {
 export type MethodFn = ({
     metadata,
     inputs
-}: MethodFnParams) => Promise<DecodedScaler[]>;
+}: MethodFnParams) => Promise<any[]>;
 
 export type logFunction = (l: string) => any;

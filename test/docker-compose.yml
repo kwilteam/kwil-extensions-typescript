@@ -7,7 +7,7 @@ services:
     restart: on-failure
 
   kwil:
-    image: kwildb/kwil:extensions
+    image: kwildb/kwil:latest
     ports:
       - 50051:50051
       - 8080:8080

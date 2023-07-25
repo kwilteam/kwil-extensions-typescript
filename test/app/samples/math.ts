@@ -1,6 +1,6 @@
 import { ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
 import { MethodFn } from "@lukelamey/extensions-typescript/dist/types/builder";
-
+import { DecodedScaler } from "@lukelamey/extensions-typescript/dist/types/convert";
 type Round = 'up' | 'down';
 
 const name = 'math';
@@ -32,12 +32,15 @@ function round(md: Record<string, string>, x: number): number {
 }
 
 const add: MethodFn = async ({ metadata, inputs }) => {
+    console.log('HERE!!')
     if(inputs.length !== 2) {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
-
-    const x = inputs[0]?.value as number;
-    const y = inputs[1]?.value as number;
+    console.log(inputs[0])
+    const x = inputs[0]?.toString();
+    console.log(`x: ${x}`)
+    const y = inputs[1]?.toString();
+    console.log(`y: ${y}`)
 
     if(!x || !y) {
         throw new Error(`Expected number arguments, got ${inputs}`);
@@ -51,8 +54,8 @@ const subtract: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
 
-    const x = inputs[0]?.value as number;
-    const y = inputs[1]?.value as number;
+    const x = inputs[0]?.toNumber();
+    const y = inputs[1]?.toNumber();
 
     if(!x || !y) {
         throw new Error(`Expected number arguments, got ${inputs}`);
@@ -66,8 +69,8 @@ const multiply: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
 
-    const x = inputs[0]?.value as number;
-    const y = inputs[1]?.value as number;
+    const x = inputs[0]?.toNumber();
+    const y = inputs[1]?.toNumber();
 
     if(!x || !y) {
         throw new Error(`Expected number arguments, got ${inputs}`);
@@ -81,8 +84,8 @@ const divide: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
 
-    const x = inputs[0]?.value as number;
-    const y = inputs[1]?.value as number;
+    const x = inputs[0]?.toNumber();
+    const y = inputs[1]?.toNumber();
 
     if(!x || !y) {
         throw new Error(`Expected number arguments, got ${inputs}`);
