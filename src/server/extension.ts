@@ -46,10 +46,13 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
         }
 
         try {
+            console.log(`args: ${call.request.args}`)
             const convertedInputs = unmarshalPbToScalar(call.request.args);
-            console.log(convertedInputs)
+            console.log(`convertedInputs: ${convertedInputs}`)
             const outputs = await method({ inputs: convertedInputs, metadata: metadataStore.metadata });
-            const convertedOutputs = marshalScalar(outputs); 
+            console.log(`outputs: ${outputs}`)
+            const convertedOutputs = marshalScalar(outputs);
+            console.log(`convertedOutputs: ${convertedOutputs}`)
             const reply: ExecuteResponse = { outputs: convertedOutputs };
             callback(null, reply);
         } catch (error) {
@@ -59,9 +62,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
 
     public async initialize(call: ServerUnaryCall<InitializeRequest, InitializeResponse>, callback: sendUnaryData<InitializeResponse>): Promise<void> {
         try {
-            console.log('before the try')
             let metadata = await extConfig.config.initializeFn(call.request.metadata);
-            console.log('after the try')
             let reply: InitializeResponse = { 
                 success: true,
                 metadata

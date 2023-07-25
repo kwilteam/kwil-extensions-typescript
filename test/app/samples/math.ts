@@ -27,8 +27,6 @@ function round(md: Record<string, string>, x: number): number {
     if(md['round'] === 'up') {
         return Math.ceil(x);
     }
-    console.log(x)
-    console.log(Math.floor(x))
 
     return Math.floor(x);
 }
