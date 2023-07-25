@@ -27,16 +27,16 @@ function round(md: Record<string, string>, x: number): number {
     if(md['round'] === 'up') {
         return Math.ceil(x);
     }
+    console.log(x)
+    console.log(Math.floor(x))
 
     return Math.floor(x);
 }
 
 const add: MethodFn = async ({ metadata, inputs }) => {
-    console.log('HERE!!')
     if(inputs.length !== 2) {
         throw new Error(`Expected 2 arguments, got ${inputs.length}`);
     }
-    console.log(inputs[0])
     const x = inputs[0]?.toNumber();
     console.log(`x: ${x}`)
     const y = inputs[1]?.toNumber();

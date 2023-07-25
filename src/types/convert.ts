@@ -35,11 +35,17 @@ interface CleanScalar {
     value: string | number;
 }
 
-export function marshalScalar(vals: ScalarValue[]): ScalarValue[] {
+export function marshalScalar(vals: CleanScalar[]): ScalarValue[] {
     let convertedInputs: ScalarValue[] = []
 
     for (let v of vals) {
-        convertedInputs.push({ value: Buffer.from(v.value.toString(), 'base64')})
+        let x = v.value;
+        if(typeof x === 'number') {
+            x = x.toString();
+        }
+        const buffer = Buffer.from(x, 'utf8');
+        // const base64 = buffer.toString('base64');
+        convertedInputs.push({ value: buffer });
     }
     return convertedInputs;
 }
