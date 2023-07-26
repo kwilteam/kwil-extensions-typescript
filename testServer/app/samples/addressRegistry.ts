@@ -34,6 +34,13 @@ const hasGrant: MethodFn = async ({ metadata, inputs }) => {
     const contract = new RegistryContract(registry);
     const hasGrant = await contract.hasGrant(inputs[0].toString(), inputs[1].toString());
 
+    console.log(`current grant in addressRegistry: ${hasGrant}`)
+
+    if(hasGrant) {
+        return "true"
+    } else {
+        return "false"
+    }
     return hasGrant.toString();
 }
 

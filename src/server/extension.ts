@@ -55,7 +55,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
                 return { value: output }
             })
 
-            console.log(cleanedOutputs)
+            console.log(scalarReady)
 
             const convertedOutputs = marshalScalar(scalarReady);
             const reply: ExecuteResponse = { outputs: convertedOutputs };

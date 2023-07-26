@@ -2,5 +2,5 @@
 import helloMath from './samples/math';
 import helloRegistry from './samples/addressRegistry';
 
-helloMath();
-// helloRegistry();
+// helloMath();
+helloRegistry();
