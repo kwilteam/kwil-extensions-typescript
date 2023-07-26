@@ -37,7 +37,8 @@ export function marshalScalar(vals: CleanScalar[]): ScalarValue[] {
         }
         console.log(`marshal x: ${x}`)
         const buffer = Buffer.from(x, 'utf-8');
-        console.log(`buffer: ${buffer}`)
+        console.log(`buffer next:`)
+        console.log(buffer)
         convertedInputs.push({ value: buffer });
     }
     return convertedInputs;
