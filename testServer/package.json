@@ -16,7 +16,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@lukelamey/extensions-typescript": "^1.0.72",
+    "@lukelamey/extensions-typescript": "^1.0.73",
     "ethers": "^6.6.5"
   }
 }
