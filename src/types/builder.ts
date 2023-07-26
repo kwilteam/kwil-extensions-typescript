@@ -36,9 +36,11 @@ interface MethodFnParams {
     inputs: DecodedScaler[]
 }
 
+type SingleScalar = 'string' | 'number'
+
 export type MethodFn = ({
     metadata,
     inputs
-}: MethodFnParams) => Promise<CleanScalar[]>;
+}: MethodFnParams) => Promise<SingleScalar[]>;
 
 export type logFunction = (l: string) => any;

@@ -1,7 +1,7 @@
 import { ServerUnaryCall, UntypedHandleCall, sendUnaryData } from "@grpc/grpc-js";
 import { ExecuteRequest, ExecuteResponse, InitializeRequest, InitializeResponse, ListMethodsRequest, ListMethodsResponse, NameRequest, NameResponse } from "../proto/extension";
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
-import { marshalScalar, unmarshalPbToScalar } from "../types/convert";
+import { CleanScalar, marshalScalar, unmarshalPbToScalar } from "../types/convert";
 import { ExtensionMethodsImpl } from "../types/extension";
 import { extConfig } from "./builder";
 
@@ -48,7 +48,10 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
         try {
             const convertedInputs = unmarshalPbToScalar(call.request.args);
             const outputs = await method({ inputs: convertedInputs, metadata: metadataStore.metadata });
-            const convertedOutputs = marshalScalar(outputs);
+            let scalarReady: CleanScalar[] = outputs.map((output) => {
+                return { value: output }
+            })
+            const convertedOutputs = marshalScalar(scalarReady);
             const reply: ExecuteResponse = { outputs: convertedOutputs };
             callback(null, reply);
         } catch (error) {

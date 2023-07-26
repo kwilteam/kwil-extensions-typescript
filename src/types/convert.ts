@@ -1,7 +1,5 @@
 import { ScalarValue } from "../proto/extension";
 
-
-
 export class DecodedScaler {
     value: Buffer;
 
