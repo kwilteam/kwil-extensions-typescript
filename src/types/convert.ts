@@ -36,7 +36,6 @@ export function marshalScalar(vals: CleanScalar[]): ScalarValue[] {
             x = x.toString();
         }
         const buffer = Buffer.from(x, 'utf8');
-        // const base64 = buffer.toString('base64');
         convertedInputs.push({ value: buffer });
     }
     return convertedInputs;

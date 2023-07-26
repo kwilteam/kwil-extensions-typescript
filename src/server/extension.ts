@@ -54,6 +54,9 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
             let scalarReady: CleanScalar[] = cleanedOutputs.map((output) => {
                 return { value: output }
             })
+            
+            console.log(cleanedOutputs)
+
             const convertedOutputs = marshalScalar(scalarReady);
             const reply: ExecuteResponse = { outputs: convertedOutputs };
             callback(null, reply);
