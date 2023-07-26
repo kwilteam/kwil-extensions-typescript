@@ -28,7 +28,7 @@ function helloWorld() {
             throw new Error(`Expected string argument, got ${values[0]}`);
         }
         
-        return `Hello, ${name}!`;
+        return "Hello, " + name;
     }
 
     function logFunction(l: string) {
