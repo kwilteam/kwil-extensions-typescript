@@ -48,7 +48,9 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
         try {
             const convertedInputs = unmarshalPbToScalar(call.request.args);
             const outputs = await method({ inputs: convertedInputs, metadata: metadataStore.metadata });
-            const cleanedOutputs = [...outputs]
+            
+            const cleanedOutputs = !Array.isArray(outputs) ? [outputs] : [...outputs];
+
             let scalarReady: CleanScalar[] = cleanedOutputs.map((output) => {
                 return { value: output }
             })
