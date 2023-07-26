@@ -36,7 +36,7 @@ interface MethodFnParams {
     inputs: DecodedScaler[]
 }
 
-type SingleScalar = 'string' | 'number'
+type SingleScalar = string | number;
 
 export type MethodFn = ({
     metadata,
