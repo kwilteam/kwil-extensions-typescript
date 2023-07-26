@@ -68,7 +68,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
                 e = error;
             }
 
-            extConfig.logFunction(e, 'error');
+            extConfig.logFn(e, 'error');
         }
     }
 
@@ -89,7 +89,7 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
             } else {
                 e = error;
             }
-            extConfig.logFunction(e, 'error');
+            extConfig.logFn(e, 'error');
         }
     }
 

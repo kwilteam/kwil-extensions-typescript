@@ -1,6 +1,6 @@
-import { ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
-import { MethodFn } from "@lukelamey/extensions-typescript/dist/types/builder";
-import { DecodedScaler } from "@lukelamey/extensions-typescript/dist/types/convert";
+import { ExtensionBuilder } from "@lukelamey/extensions-typescript";
+import { MethodFn } from "@lukelamey/extensions-typescript";
+
 type Round = 'up' | 'down';
 
 const name = 'math';
@@ -101,6 +101,7 @@ function helloMath(): void {
             multiply,
             divide
         })
+    
         .port('50051')
         .build();
 

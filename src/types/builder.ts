@@ -9,7 +9,7 @@ export interface ExtensionBuilderImpl {
 
     named(name: string): NonNil<ExtensionBuilderImpl>;
 
-    withLoggerFn(logFunction: logFunction): NonNil<ExtensionBuilderImpl>;
+    withLoggerFn(logFn: logFn): NonNil<ExtensionBuilderImpl>;
 
     port(port: string): NonNil<ExtensionBuilderImpl>;
 
@@ -20,7 +20,7 @@ export interface ExtensionBuilderImpl {
 
 export interface ExtensionTemplate {
     config: Config,
-    logFunction: logFunction
+    logFn: logFn
 }
 
 interface Config {
@@ -43,4 +43,4 @@ export type MethodFn = ({
     inputs
 }: MethodFnParams) => Promise<SingleScalar[] | SingleScalar>;
 
-export type logFunction = (message: string, level: 'info' | 'error' | 'debug') => void
+export type logFn = ((message: string, level: 'info' | 'error' | 'debug') => void) | ((l: string) => any)

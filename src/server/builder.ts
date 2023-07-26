@@ -1,5 +1,5 @@
 import { Server } from "@grpc/grpc-js";
-import { ExtensionTemplate, InitializeFn, MethodFn, logFunction, ExtensionBuilderImpl } from "../types/builder";
+import { ExtensionTemplate, InitializeFn, MethodFn, logFn, ExtensionBuilderImpl } from "../types/builder";
 import { buildServer } from "./server";
 import { NonNil } from "../types/general";
 
@@ -17,7 +17,7 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
                 initializeFn: async (metadata: Record<string, string>) => { return {} },
                 methods: {}
             },
-            logFunction: (message, level) => console[level](message)
+            logFn: (message, level) => console[level](message)
         }
     }
 
@@ -41,8 +41,8 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
         return this;
     }
 
-    withLoggerFn(logFunction: logFunction): NonNil<ExtensionBuilderImpl> {
-        this.template.logFunction = logFunction;
+    withLoggerFn(logFn: logFn): NonNil<ExtensionBuilderImpl> {
+        this.template.logFn = logFn;
         return this;
     }
 
@@ -64,13 +64,13 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
 
         if (this._server) {
             this._server.tryShutdown((err) => {
-                this.template.logFunction("Shutting down server", "info")
+                this.template.logFn("Shutting down server", "info")
                 process.exit(0);
             })
 
             // Stop the server from accepting new connections and finishes existing connections.
             setTimeout(() => {
-                this.template.logFunction('Could not close connections in time. Forcefully shutting down.' , "error");
+                this.template.logFn('Could not close connections in time. Forcefully shutting down.' , "error");
                 process.exit(1);
             }, 10000);
         }
