@@ -17,7 +17,7 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
                 initializeFn: async (metadata: Record<string, string>) => { return {} },
                 methods: {}
             },
-            logFunction: null
+            logFunction: (message, level) => console[level](message)
         }
     }
 
@@ -64,13 +64,13 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
 
         if (this._server) {
             this._server.tryShutdown((err) => {
-                console.log("Shutting down server")
+                this.template.logFunction("Shutting down server", "info")
                 process.exit(0);
             })
 
             // Stop the server from accepting new connections and finishes existing connections.
             setTimeout(() => {
-                console.error('Could not close connections in time. Forcefully shutting down.');
+                this.template.logFunction('Could not close connections in time. Forcefully shutting down.' , "error");
                 process.exit(1);
             }, 10000);
         }

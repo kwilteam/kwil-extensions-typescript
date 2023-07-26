@@ -59,6 +59,15 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
             callback(null, reply);
         } catch (error) {
             callback(new Error(`Error executing method ${call.request.name}: ${error}`));
+            let e: string;
+
+            if (typeof error !== 'string') {
+                e = JSON.stringify(error);
+            } else {
+                e = error;
+            }
+
+            extConfig.logFunction(e, 'error');
         }
     }
 
@@ -73,6 +82,13 @@ export class ExtensionMethods implements ExtensionMethodsImpl {
             callback(null, reply);
         } catch (error) {
             callback(new Error(`Error initializing extension: ${error}`));
+            let e: string;
+            if (typeof error !== 'string') {
+                e = JSON.stringify(error);
+            } else {
+                e = error;
+            }
+            extConfig.logFunction(e, 'error');
         }
     }
 

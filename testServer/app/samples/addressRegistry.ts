@@ -34,7 +34,7 @@ const hasGrant: MethodFn = async ({ metadata, inputs }) => {
     const contract = new RegistryContract(registry);
     const hasGrant = await contract.hasGrant(inputs[0].toString(), inputs[1].toString());
 
-    return [{ value: hasGrant.toString() }];
+    return hasGrant.toString();
 }
 
 function helloRegistry(): void {

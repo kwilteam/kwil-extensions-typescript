@@ -20,7 +20,7 @@ export interface ExtensionBuilderImpl {
 
 export interface ExtensionTemplate {
     config: Config,
-    logFunction: Nillable<(l: string) => any>
+    logFunction: logFunction
 }
 
 interface Config {
@@ -43,4 +43,4 @@ export type MethodFn = ({
     inputs
 }: MethodFnParams) => Promise<SingleScalar[] | SingleScalar>;
 
-export type logFunction = (l: string) => any;
+export type logFunction = (message: string, level: 'info' | 'error' | 'debug') => void
