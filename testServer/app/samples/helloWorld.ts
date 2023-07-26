@@ -1,70 +1,70 @@
-// import { ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
-// import { MethodFn } from "@lukelamey/extensions-typescript/dist/types/builder";
 
-// function helloWorld() {
-//     const name = 'hello world';
+import { MethodFn, ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
 
-//     const requiredMetadata = ['!'];
+function helloWorld() {
+    const name = 'hello world';
 
-//     async function initialize(metadata?: Record<string, string>): Promise<Record<string, string>> {
-//         let hasRequiredMetadata = true;
+    const requiredMetadata = ['!'];
 
-//         for (let key of requiredMetadata) {
-//             if (!metadata[key]) {
-//                 hasRequiredMetadata = false;
-//                 break;
-//             }
-//         }
+    async function initialize(metadata: Record<string, string>): Promise<Record<string, string>> {
+        let hasRequiredMetadata = true;
 
-//         if (!hasRequiredMetadata) {
-//             throw new Error(`Required metadata not found: ${requiredMetadata}`);
-//         }
+        for (let key of requiredMetadata) {
+            if (!metadata[key]) {
+                hasRequiredMetadata = false;
+                break;
+            }
+        }
 
-//         return metadata;
-//     }
+        if (!hasRequiredMetadata) {
+            throw new Error(`Required metadata not found: ${requiredMetadata}`);
+        }
 
-//     type DecodedScalar = {
-//         value: string | number;
-//     }
+        return metadata;
+    }
 
-//     const sayHello: MethodFn = async function({
-//         metadata,
-//         inputs: values
-//     }) : Promise<DecodedScalar[]> {
-//         if(values.length !== 1) {
-//             throw new Error(`Expected 1 argument, got ${values.length}`);
-//         }
+    type DecodedScalar = {
+        value: string | number;
+    }
 
-//         const name = values[0]?.value.toString();
+    const sayHello: MethodFn = async function({
+        metadata,
+        inputs: values
+    }) : Promise<DecodedScalar[]> {
+        if(values.length !== 1) {
+            throw new Error(`Expected 1 argument, got ${values.length}`);
+        }
 
-//         if(!name) {
-//             throw new Error(`Expected string argument, got ${values[0]}`);
-//         }
+        const name = values[0]?.value.toString();
+
+        if(!name) {
+            throw new Error(`Expected string argument, got ${values[0]}`);
+        }
         
-//         return [{ value: `Hello, ${name}!` }];
-//     }
+        return `Hello, ${name}!`;
+    }
 
-//     function logFunction(l: string) {
-//         console.log(`log function: ${l}`)
-//     }
+    function logFunction(l: string) {
+        console.log(`log function: ${l}`)
+    }
 
-//     const server = new ExtensionBuilder()
-//         .named(name)
-//         .withInitializer(initialize)
-//         .withMethods({
-//             sayHello
-//         })
-//         .withLoggerFn(logFunction)
-//         .port('50051')
-//         .build();
+    const server = new ExtensionBuilder()
+        .named(name)
+        .withInitializer(initialize)
+        .withMethods({
+            sayHello
+        })
+        .withLoggerFn(logFunction)
+        .port('50051')
+        .build();
 
-//     process.on('SIGINT', () => {
-//         server.stop();
-//     });
+    process.on('SIGINT', () => {
+        server.stop();
+    });
 
-//     process.on('SIGTERM', () => {
-//         server.stop();
-//     });
-// }
+    process.on('SIGTERM', () => {
+        server.stop();
+    });
+}
 
-// export default helloWorld;
+export default helloWorld;
