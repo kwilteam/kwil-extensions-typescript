@@ -2,35 +2,22 @@
 import { MethodFn, ExtensionBuilder } from "@lukelamey/extensions-typescript/dist";
 
 function helloWorld() {
-    const name = 'hello world';
+    const name = 'helloworld';
 
     const requiredMetadata = ['!'];
 
     async function initialize(metadata: Record<string, string>): Promise<Record<string, string>> {
         let hasRequiredMetadata = true;
 
-        for (let key of requiredMetadata) {
-            if (!metadata[key]) {
-                hasRequiredMetadata = false;
-                break;
-            }
-        }
-
-        if (!hasRequiredMetadata) {
-            throw new Error(`Required metadata not found: ${requiredMetadata}`);
-        }
-
         return metadata;
     }
 
-    type DecodedScalar = {
-        value: string | number;
-    }
+
 
     const sayHello: MethodFn = async function({
         metadata,
         inputs: values
-    }) : Promise<DecodedScalar[]> {
+    }) {
         if(values.length !== 1) {
             throw new Error(`Expected 1 argument, got ${values.length}`);
         }
