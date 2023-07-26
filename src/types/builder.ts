@@ -41,6 +41,6 @@ type SingleScalar = 'string' | 'number'
 export type MethodFn = ({
     metadata,
     inputs
-}: MethodFnParams) => Promise<SingleScalar[]>;
+}: MethodFnParams) => Promise<SingleScalar[] | SingleScalar>;
 
 export type logFunction = (l: string) => any;

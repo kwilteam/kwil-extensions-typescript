@@ -58,7 +58,7 @@ const subtract: MethodFn = async ({ metadata, inputs }) => {
         throw new Error(`Expected number arguments, got ${inputs}`);
     }
 
-    return [{ value: round(metadata, x - y) }];
+    return [round(metadata, x - y)];
 }
 
 const multiply: MethodFn = async ({ metadata, inputs }) => {
