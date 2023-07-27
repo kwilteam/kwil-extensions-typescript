@@ -1,12 +1,12 @@
 import { ExtensionBuilder, MethodFn, InitializeFn, logFn } from "@lukelamey/extensions-typescript";
 import * as fs from 'fs';
 
-const initialize: InitializeFn = async (metadata: Record<string, string>): Promise<Record<string, string>> {
+const initialize: InitializeFn = async (metadata: Record<string, string>): Promise<Record<string, string>> => {
     if (!metadata['round']) {
         metadata['round'] = 'up';
     }
 
-    if (metadata['round']!== 'up'  || metadata['round'] !== 'down') {
+    if (metadata['round']!== 'up' && metadata['round'] !== 'down') {
         throw new Error('round must be either up or down');
     }
 
@@ -24,14 +24,14 @@ const divide: MethodFn = async ({ metadata, inputs }) => {
     }
 }
 
-const logger: LoggerFn = (log) => {
+const logger: logFn = (log: string) => {
     fs.appendFileSync('logs.txt', log);
 }
 
 function startServer(): void {
     const server = new ExtensionBuilder()
         .named('math')
-        .withInitializer(initalize)
+        .withInitializer(initialize)
         .withMethods({
             divide
         })
@@ -48,4 +48,4 @@ function startServer(): void {
     });
 }
 
-startServer();
+export default startServer;

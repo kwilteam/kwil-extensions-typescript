@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port
-EXPOSE 8080
+EXPOSE 50051
 
 # Your start command
 CMD [ "node", "dist/index.js" ]
