@@ -8,4 +8,6 @@ yarn.lock
 /test
 /src
 /proto
+/testServer
+/testClient
 tsconfig.json
