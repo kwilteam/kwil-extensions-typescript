@@ -4,10 +4,11 @@ The Kwil Extensions is a JavaScript/TypeScript SDK for building extensions on th
 
 Extensions enable developers to run arbitrary applications alongside their database. This allows for implementing business logic, access control, and value accrual mechanisms directly into a decentralized database.
 
-Extensions must be started with the Kwil Daemon. If you need support hosting your Kwil node with an extension, please reach out to us at help@kwil.com.
+Extensions must be started with the Kwil Daemon. If you need support hosting your Kwil node with an extension, please reach out to us at [help@kwil.com](mailto:help@kwil.com).
 
 ## Installation
-```
+
+``` bash
 npm i @kwil/extensions
 ```
 
