@@ -1,7 +1,7 @@
 {
-  "name": "@lukelamey/extensions-typescript",
-  "version": "1.0.85",
-  "description": "",
+  "name": "kwil-extensions",
+  "version": "0.0.2",
+  "description": "A JS / TS SDK for building Kwil Extensions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

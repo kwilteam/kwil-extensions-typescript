@@ -77,19 +77,17 @@ const multiply: MethodFn = async ({ metadata, inputs }) => {
 }
 
 const divide: MethodFn = async ({ metadata, inputs }) => {
-    if(inputs.length !== 2) {
-        throw new Error(`Expected 2 arguments, got ${inputs.length}`);
-    }
-
     const x = inputs[0]?.toNumber();
     const y = inputs[1]?.toNumber();
 
-    if(!x || !y) {
-        throw new Error(`Expected number arguments, got ${inputs}`);
+    if(metadata['round'] === 'down') {
+        return Math.floor(x / y);
+    } else {
+        return Math.ceil(x / y);
     }
-
-    return round(metadata, x / y);
 }
+
+
 
 function helloMath(): void {
     const server = new ExtensionBuilder()
