@@ -5,13 +5,10 @@ FROM node:14
 WORKDIR /app
 
 # Copy package.json, package-lock.json, and .npmrc
-COPY .npmrc package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-
-# Remove .npmrc file after installation
-RUN rm -f .npmrc
 
 # Copy the rest of the application code
 COPY . .

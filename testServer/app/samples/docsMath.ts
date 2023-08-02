@@ -1,4 +1,4 @@
-import { ExtensionBuilder, MethodFn, InitializeFn, logFn } from "@lukelamey/extensions-typescript";
+import { ExtensionBuilder, MethodFn, InitializeFn, logFn } from "kwil-extensions";
 import * as fs from 'fs';
 
 const initialize: InitializeFn = async (metadata: Record<string, string>): Promise<Record<string, string>> => {

@@ -1,5 +1,5 @@
-import { ExtensionBuilder } from "@lukelamey/extensions-typescript";
-import { MethodFn } from "@lukelamey/extensions-typescript";
+import { ExtensionBuilder } from "kwil-extensions";
+import { MethodFn } from "kwil-extensions";
 
 type Round = 'up' | 'down';
 

@@ -1,5 +1,5 @@
 
-import { MethodFn, ExtensionBuilder } from "@lukelamey/extensions-typescript";
+import { MethodFn, ExtensionBuilder } from "kwil-extensions";
 
 function helloWorld() {
     const name = 'helloworld';
