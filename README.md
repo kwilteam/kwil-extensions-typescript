@@ -9,7 +9,7 @@ Extensions must be started with the Kwil Daemon. If you need support hosting you
 ## Installation
 
 ``` bash
-npm i kwil-extensions
+npm i @kwilteam/extensions
 ```
 
 ## Creating Extension
@@ -98,7 +98,7 @@ const logger: logFn = (log: string) => {
 Below is an example of how to build a fully functional extension called `math` that provides a method called `divide` that divides two numbers:
 
 ```typescript
-import { ExtensionBuilder, MethodFn, InitializeFn, logFn } from "kwil-extensions";
+import { ExtensionBuilder, MethodFn, InitializeFn, logFn } from "@kwilteam/extensions";
 import * as fs from 'fs';
 
 const initialize: InitializeFn = async (metadata: Record<string, string>): Promise<Record<string, string>> => {

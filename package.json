@@ -1,6 +1,6 @@
 {
-  "name": "kwil-extensions",
-  "version": "0.0.2",
+  "name": "@kwilteam/extensions",
+  "version": "0.0.1",
   "description": "A JS / TS SDK for building Kwil Extensions.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,13 +12,22 @@
     "!dist/**/*.test.ts"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky install",
+    "commit": "git add . && cz",
+    "release": "standard-version"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luke Lamey (luke@kwil.com)",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "18.4.3",
+    "@commitlint/config-conventional": "18.4.3",
     "@types/google-protobuf": "^3.15.6",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.0",
+    "standard-version": "^9.5.0",
     "ts-proto": "^1.152.1",
     "typescript": "^5.1.6"
   },
@@ -33,5 +42,10 @@
   "bugs": {
     "url": "https://github.com/kwilteam/kwil-extensions-typescript/issues"
   },
-  "homepage": "https://github.com/kwilteam/kwil-extensions-typescript#readme"
+  "homepage": "https://github.com/kwilteam/kwil-extensions-typescript#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

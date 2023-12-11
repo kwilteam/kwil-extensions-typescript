@@ -1,5 +1,4 @@
-import { ExtensionBuilder } from "@lukelamey/extensions-typescript";
-import { MethodFn } from "@lukelamey/extensions-typescript";
+import { ExtensionBuilder, MethodFn } from "../../../dist";
 
 type Round = 'up' | 'down';
 
@@ -105,7 +104,7 @@ function helloMath(): void {
             multiply,
             divide
         })
-        .port('50051')
+        .port('50060')
         .build();
 
     process.on('SIGINT', () => {

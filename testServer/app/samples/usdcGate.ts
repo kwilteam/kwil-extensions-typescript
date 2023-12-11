@@ -1,5 +1,5 @@
 import { Contract, JsonRpcProvider } from "ethers";
-import { ExtensionBuilder, InitializeFn, MethodFn } from "kwil-extensions";
+import { ExtensionBuilder, InitializeFn, MethodFn } from "../../../dist";
 import abi from '../abi/usdcAbi'
 require('dotenv').config();
 

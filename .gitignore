@@ -12,3 +12,4 @@ yarn.lock
 /pkg
 testapp/node_modules
 .npmrc
+.husky

@@ -1,4 +1,4 @@
-import { ExtensionBuilder, MethodFn, InitializeFn } from "@lukelamey/extensions-typescript";
+import { ExtensionBuilder, MethodFn, InitializeFn } from "../../../dist";
 import { JsonRpcProvider, Contract} from 'ethers'
 import abi from '../abi/registryAbi';
 import * as dotenv from 'dotenv';

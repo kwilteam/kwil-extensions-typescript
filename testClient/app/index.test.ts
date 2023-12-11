@@ -1,27 +1,33 @@
-import { RecordTable, kwil, schemaObj, wallet } from './config';
-import mathSchema from './testmath.kf.json';
-import { Types, Utils } from 'kwil';
+import { RecordTable, checkTransaction, kwil, schemaObj, wallet } from './config';
+import mathSchema from './math.kf.json';
+import { KwilSigner, Types, Utils } from '@kwilteam/kwil-js';
+import { CompiledKuneiform } from '@kwilteam/kwil-js/dist/core/payload';
+
+async function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 describe('testing database with math extension, round set up', () => {
+    afterEach(async () => {
+        await sleep(3000);
+    });
+
+    const signer = new KwilSigner(wallet, wallet.address);
 
     test('first deploy database', async () => {
-        let schema: schemaObj = mathSchema;
-        schema.owner = wallet.address;
+        const deploy: Types.DeployBody = {
+            schema: mathSchema,
+        }
 
-        const dbTx: Types.Transaction = await kwil.dbBuilder()
-            .signer(wallet)
-            .payload(schema)
-            .buildTx();
-        
-        const res = await kwil.broadcast(dbTx);
+        const res = await kwil.deploy(deploy, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: null,
+            tx_hash: expect.any(String),
         });
-    })
+        
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000)
 
     test('add extension function executes', async () => {
         const input = new Utils.ActionInput()
@@ -29,22 +35,21 @@ describe('testing database with math extension, round set up', () => {
             .put('$v1', '3')
             .put('$v2', '4');
 
-        const tx: Types.Transaction = await kwil.actionBuilder()
-            .name('addop')
-            .dbid(kwil.getDBID(wallet.address, 'testmath'))
-            .signer(wallet)
-            .concat(input)
-            .buildTx();
+        const action: Types.ActionBody = {
+            dbid: kwil.getDBID(wallet.address, mathSchema.name),
+            action: 'addop',
+            inputs: [input]
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.execute(action, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: expect.any(Array),
+            tx_hash: expect.any(String),
         });
-    })
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000)
 
     test('add function returns correct result', async () => {
         const res = await kwil.selectQuery(
@@ -53,6 +58,8 @@ describe('testing database with math extension, round set up', () => {
         )
 
         const results = res.data
+
+        console.log(results)
 
         if(!results) {
             throw new Error('No results returned');
@@ -63,7 +70,7 @@ describe('testing database with math extension, round set up', () => {
         console.log(record)
 
         expect(record.finalresponse).toEqual(7);
-    })
+    }, 10000)
 
     test('subtract extension function executes', async () => {
         const input = new Utils.ActionInput()
@@ -71,22 +78,22 @@ describe('testing database with math extension, round set up', () => {
             .put('$v1', '12')
             .put('$v2', '4');
 
-        const tx: Types.Transaction = await kwil.actionBuilder()
-            .name('subop')
-            .dbid(kwil.getDBID(wallet.address, 'testmath'))
-            .signer(wallet)
-            .concat(input)
-            .buildTx();
+        const payload: Types.ActionBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+            action: 'subop',
+            inputs: [input]
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.execute(payload, signer);
+
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: expect.any(Array),
+            tx_hash: expect.any(String),
         });
-    })
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000)
 
     test('subtract function returns correct result', async () => {
         const res = await kwil.selectQuery(
@@ -105,7 +112,7 @@ describe('testing database with math extension, round set up', () => {
         console.log(record)
 
         expect(record.finalresponse).toEqual(8);
-    })
+    }, 10000)
 
     test('multiply extension function executes', async () => {
         const input = new Utils.ActionInput()
@@ -113,22 +120,21 @@ describe('testing database with math extension, round set up', () => {
             .put('$v1', '3')
             .put('$v2', '4');
 
-        const tx: Types.Transaction = await kwil.actionBuilder()
-            .name('multop')
-            .dbid(kwil.getDBID(wallet.address, 'testmath'))
-            .signer(wallet)
-            .concat(input)
-            .buildTx();
+        const payload: Types.ActionBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+            action: 'multop',
+            inputs: [input]
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.execute(payload, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: expect.any(Array),
+            tx_hash: expect.any(String),
         });
-    });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 
     test('multiply function returns correct result', async () => {
         const res = await kwil.selectQuery(
@@ -147,7 +153,7 @@ describe('testing database with math extension, round set up', () => {
         console.log(record)
 
         expect(record.finalresponse).toEqual(12);
-    })
+    }, 10000)
 
     test('divide extension function executes', async () => {
         const input = new Utils.ActionInput()
@@ -155,22 +161,21 @@ describe('testing database with math extension, round set up', () => {
             .put('$v1', '9')
             .put('$v2', '4');
 
-        const tx: Types.Transaction = await kwil.actionBuilder()
-            .name('divop')
-            .dbid(kwil.getDBID(wallet.address, 'testmath'))
-            .signer(wallet)
-            .concat(input)
-            .buildTx();
+        const payload: Types.ActionBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+            action: 'divop',
+            inputs: [input]
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.execute(payload, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: expect.any(Array),
+            tx_hash: expect.any(String),
         });
-    });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 
     test('divide function returns correct result with round up', async () => {
         const res = await kwil.selectQuery(
@@ -189,48 +194,57 @@ describe('testing database with math extension, round set up', () => {
         console.log(record)
 
         expect(record.finalresponse).toEqual(3);
-    });
+    }, 10000);
 
     test('drop database', async () => {
-        const tx: Types.Transaction = await kwil.dropDBBuilder()
-            .payload({
-                owner: wallet.address,
-                name: 'testmath'
-            })
-            .signer(wallet)
-            .buildTx();
+        const drop: Types.DropBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.drop(drop, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: null,
+            tx_hash: expect.any(String),
         });
-    });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 })
 
 describe('testing database with math extension, round set down', () => {
-    test('first deploy database', async () => {
-        let schema: schemaObj = mathSchema;
-        schema.owner = wallet.address;
-        schema.extensions[0].config.round = "\"down\"";
+    const signer = new KwilSigner(wallet, wallet.address);
 
-        const dbTx: Types.Transaction = await kwil.dbBuilder()
-            .signer(wallet)
-            .payload(schema)
-            .buildTx();
-        
-        const res = await kwil.broadcast(dbTx);
+    afterEach(async () => {
+        await sleep(3000);
+    });
+
+    test('first deploy database', async () => {
+        type Mutable<T> = {
+            -readonly [P in keyof T]: T[P];
+          };
+
+        let schema: Mutable<CompiledKuneiform> = mathSchema;
+        schema.owner = wallet.address;
+        // @ts-ignore
+        schema.extensions[0].config[0].value = 'down';
+
+        //@ts-ignore
+        console.log(schema.extensions[0].config)
+
+        const deploy: Types.DeployBody = {
+            schema
+        }
+
+        const res = await kwil.deploy(deploy, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: null,
+            tx_hash: expect.any(String),
         });
-    });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 
     test('divide extension function executes', async () => {
         const input = new Utils.ActionInput()
@@ -238,22 +252,21 @@ describe('testing database with math extension, round set down', () => {
             .put('$v1', '9')
             .put('$v2', '4');
 
-        const tx: Types.Transaction = await kwil.actionBuilder()
-            .name('divop')
-            .dbid(kwil.getDBID(wallet.address, 'testmath'))
-            .signer(wallet)
-            .concat(input)
-            .buildTx();
+        const payload: Types.ActionBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+            action: 'divop',
+            inputs: [input]
+        }
 
-        const res = await kwil.broadcast(tx);
+        const res = await kwil.execute(payload, signer);
 
         expect(res.data).toBeDefined();
         expect(res.data).toMatchObject<Types.TxReceipt>({
-            txHash: expect.any(String),
-            fee: expect.any(String),
-            body: expect.any(Array),
+            tx_hash: expect.any(String),
         });
-    });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 
     test('divide function returns correct result with round down', async () => {
         const res = await kwil.selectQuery(
@@ -272,5 +285,20 @@ describe('testing database with math extension, round set down', () => {
         console.log(record)
 
         expect(record.finalresponse).toEqual(2);
-    });
+    }, 10000);
+
+    test('drop database', async () => {
+        const drop: Types.DropBody = {
+            dbid: kwil.getDBID(wallet.address, 'testmath'),
+        }
+
+        const res = await kwil.drop(drop, signer);
+
+        expect(res.data).toBeDefined();
+        expect(res.data).toMatchObject<Types.TxReceipt>({
+            tx_hash: expect.any(String),
+        });
+
+        await checkTransaction(res.data?.tx_hash);
+    }, 10000);
 });

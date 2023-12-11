@@ -4,8 +4,8 @@ import helloRegistry from './samples/addressRegistry';
 import helloDocs from './samples/docsMath';
 import helloUSDC from './samples/usdcGate';
 
-// helloMath();
+helloMath();
 // helloDocs();
 // helloRegistry();
 // helloWorld();
-helloUSDC();
+// helloUSDC();

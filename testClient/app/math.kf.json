@@ -59,12 +59,14 @@
   "actions": [
     {
       "name": "addOp",
-      "public": true,
       "inputs": [
         "$id",
         "$v1",
         "$v2"
       ],
+      "public": true,
+      "mutability": "update",
+      "auxiliaries": null,
       "statements": [
         "$result=math.add($v1,$v2);",
         "INSERT INTO records\n    VALUES (\n        $id,\n        'add',\n        $v1,\n        $v2,\n        $result\n    );"
@@ -72,50 +74,59 @@
     },
     {
       "name": "divOp",
-      "public": true,
       "inputs": [
         "$id",
         "$v1",
         "$v2"
       ],
+      "public": true,
+      "mutability": "update",
+      "auxiliaries": null,
       "statements": [
-        "$res=math.divide($v1,$v2);",
-        "INSERT INTO records\n    VALUES   (\n        $id,\n        'divide',\n        $v1,\n        $v2,\n        $res\n    );"
+        "$result=math.divide($v1,$v2);",
+        "INSERT INTO records\n    VALUES (\n        $id,\n        'divide',\n        $v1,\n        $v2,\n        $result\n    );"
       ]
     },
     {
       "name": "multOp",
-      "public": true,
       "inputs": [
         "$id",
         "$v1",
         "$v2"
       ],
+      "public": true,
+      "mutability": "update",
+      "auxiliaries": null,
       "statements": [
-        "$res=math.multiply($v1,$v2);",
-        "INSERT INTO records\n    VALUES (\n        $id,\n        'multiply',\n        $v1,\n        $v2,\n        $res\n    );"
+        "$result=math.multiply($v1,$v2);",
+        "INSERT INTO records\n    VALUES (\n        $id,\n        'multiply',\n        $v1,\n        $v2,\n        $result\n    );"
       ]
     },
     {
       "name": "subOp",
-      "public": true,
       "inputs": [
         "$id",
         "$v1",
         "$v2"
       ],
+      "public": true,
+      "mutability": "update",
+      "auxiliaries": null,
       "statements": [
-        "$res=math.subtract($v1,$v2);",
-        "INSERT INTO records\n    VALUES (\n        $id,\n        'subtract',\n        $v1,\n        $v2,\n        $res\n    );"
+        "$result=math.subtract($v1,$v2);",
+        "INSERT INTO records\n    VALUES (\n        $id,\n        'subtract',\n        $v1,\n        $v2,\n        $result\n    );"
       ]
     }
   ],
   "extensions": [
     {
       "name": "math",
-      "config": {
-        "round": "\"up\""
-      },
+      "config": [
+        {
+          "argument": "round",
+          "value": "'up'"
+        }
+      ],
       "alias": "math"
     }
   ]

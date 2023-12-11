@@ -4,7 +4,6 @@ import { ExtensionTemplate } from "../types/builder";
 import { ExtensionMethods } from "./extension";
 
 export function buildServer(config: ExtensionTemplate, port: string): Server {
-
     const server = new Server();
 
     server.addService(ExtensionServiceService, new ExtensionMethods());
@@ -17,7 +16,7 @@ export function buildServer(config: ExtensionTemplate, port: string): Server {
                 console.error(err);
                 return;
             }
-            console.log(`gRPC listening on ${port}`);
+            config.logFn(`gRPC listening on ${port}`, "info");
             server.start();
         }
     )
