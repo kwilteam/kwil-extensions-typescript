@@ -1,5 +1,5 @@
 import { Server } from "@grpc/grpc-js";
-import { ExtensionTemplate, InitializeFn, MethodFn, logFn, ExtensionBuilderImpl } from "../types/builder";
+import { ExtensionTemplate, InitializeFn, MethodFn, LogFn, ExtensionBuilderImpl } from "../types/builder";
 import { buildServer } from "./server";
 import { NonNil } from "../types/general";
 
@@ -14,11 +14,13 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
         this.template = {
             config: {
                 name: "",
-                initializeFn: async (metadata: Record<string, string>) => { return {} },
-                methods: {}
+                initializeFn: async (metadata: Record<string, string>) => {
+                    return {};
+                },
+                methods: {},
             },
-            logFn: (message, level) => console[level](message)
-        }
+            logFn: (message, level) => console[level](message),
+        };
     }
 
     withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl> {
@@ -41,7 +43,7 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
         return this;
     }
 
-    withLoggerFn(logFn: logFn): NonNil<ExtensionBuilderImpl> {
+    withLoggerFn(logFn: LogFn): NonNil<ExtensionBuilderImpl> {
         this.template.logFn = logFn;
         return this;
     }
@@ -52,7 +54,7 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
     }
 
     build(): NonNil<ExtensionBuilderImpl> {
-        extConfig = this.template
+        extConfig = this.template;
         this._server = buildServer(this.template, this._port);
         return this;
     }
@@ -64,15 +66,15 @@ export class ExtensionBuilder implements ExtensionBuilderImpl {
 
         if (this._server) {
             this._server.tryShutdown((err) => {
-                this.template.logFn("Shutting down server", "info")
+                this.template.logFn("Shutting down server", "info");
                 process.exit(0);
-            })
+            });
 
             // Stop the server from accepting new connections and finishes existing connections.
             setTimeout(() => {
-                this.template.logFn('Could not close connections in time. Forcefully shutting down.' , "error");
+                this.template.logFn("Could not close connections in time. Forcefully shutting down.", "error");
                 process.exit(1);
             }, 10000);
         }
-    }   
+    }
 }

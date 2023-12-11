@@ -1,7 +1,6 @@
 import { CleanScalar, DecodedScaler } from "./convert";
 import { Nillable, NonNil } from "./general";
 
-
 export interface ExtensionBuilderImpl {
     withMethods(methods: Record<string, MethodFn>): NonNil<ExtensionBuilderImpl>;
 
@@ -9,7 +8,7 @@ export interface ExtensionBuilderImpl {
 
     named(name: string): NonNil<ExtensionBuilderImpl>;
 
-    withLoggerFn(logFn: logFn): NonNil<ExtensionBuilderImpl>;
+    withLoggerFn(logFn: LogFn): NonNil<ExtensionBuilderImpl>;
 
     port(port: string): NonNil<ExtensionBuilderImpl>;
 
@@ -19,28 +18,25 @@ export interface ExtensionBuilderImpl {
 }
 
 export interface ExtensionTemplate {
-    config: Config,
-    logFn: logFn
+    config: Config;
+    logFn: LogFn;
 }
 
 interface Config {
-    name: string,
-    initializeFn: InitializeFn,
-    methods: Record<string, MethodFn>
+    name: string;
+    initializeFn: InitializeFn;
+    methods: Record<string, MethodFn>;
 }
 
 export type InitializeFn = (metadata: Record<string, string>) => Promise<Record<string, string>>;
 
 interface MethodFnParams {
-    metadata: Record<string, string>,
-    inputs: DecodedScaler[]
+    metadata: Record<string, string>;
+    inputs: DecodedScaler[];
 }
 
 type SingleScalar = string | number;
 
-export type MethodFn = ({
-    metadata,
-    inputs
-}: MethodFnParams) => Promise<SingleScalar[] | SingleScalar>;
+export type MethodFn = ({ metadata, inputs }: MethodFnParams) => Promise<SingleScalar[] | SingleScalar>;
 
-export type logFn = ((message: string, level: 'info' | 'error' | 'debug') => void) | ((l: string) => any)
+export type LogFn = ((message: string, level: "info" | "error" | "debug") => void) | ((l: string) => any);
